@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Daktilo Animasyonu</title>
+  <style>
+    #daktilo {
+      font-family: Courier, monospace;
+      font-size: 24px;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 15ch;
+    }
+    
+    #daktilo:after {
+      content: "|";
+      display: inline-block;
+      animation: blinkCaret 0.7s infinite;
+    }
+    
+    @keyframes blinkCaret {
+      from, to { opacity: 0; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1 id="daktilo"></h1>
+
+  <script >document.addEventListener("DOMContentLoaded", function() {
+    var basliklar = [
+      "Başlık 1",
+      "Başlık 2",
+      "Başlık 3",
+      "Başlık 4",
+      "Başlık 5"
+    ];
+  
+    var daktilo = document.getElementById("daktilo");
+  
+    function getRandomBaslik() {
+      var randomIndex = Math.floor(Math.random() * basliklar.length);
+      return basliklar[randomIndex];
+    }
+  
+    function typeEffect() {
+      var baslik = getRandomBaslik();
+      var index = 0;
+      var speed = 100; // Daktilo hızı (milisaniye cinsinden)
+  
+      function type() {
+        if (index < baslik.length) {
+          daktilo.textContent += baslik.charAt(index);
+          index++;
+          setTimeout(type, speed);
+        }
+      }
+  
+      function erase() {
+        if (index >= 0) {
+          daktilo.textContent = baslik.substring(0, index);
+          index--;
+          setTimeout(erase, speed);
+        }
+      }
+  
+      type();
+      setTimeout(erase, 3000); // Başlık tamamlandıktan sonra 3 saniye bekleyip siler
+    }
+  
+    setInterval(typeEffect, 6000); // Yeni başlık için 6 saniye bekler
+  });
+  </script>
+</body>
+</html>
